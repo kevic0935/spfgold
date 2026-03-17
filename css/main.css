@@ -1,0 +1,179 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+  color: #333333;
+  background-color: #fdf8e6;
+}
+
+.section-title {
+  color: white;
+  background-color: #D65538;
+  padding: 1rem 3.5rem;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 4rem;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(196, 30, 58, 0.2);
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 22px solid #D65538;
+}
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+.card-custom {
+  border: 3px solid #D4AF37;
+  border-radius: 2rem;
+  padding: 2rem;
+  background-color: white;
+  height: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 8px 8px 0px #FFF9E6;
+}
+
+.card-custom:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0px #FFF9E6;
+}
+
+/* --- Table Styles --- */
+.table-title-pill {
+  display: inline-block;
+  background-color: white;
+  border: 2px solid #FFD54F;
+  border-radius: 9999px;
+  padding: 0.75rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 900;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 1rem;
+}
+
+.table-custom {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background-color: white;
+}
+
+.table-custom th {
+  background-color: #BDBDBD;
+  color: #333333;
+  padding: 1.25rem 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+}
+
+.table-custom td {
+  padding: 1.25rem 0.5rem;
+  background-color: #EEEEEE;
+  color: #333333;
+  text-align: center;
+  border: none;
+}
+
+.table-custom td.first-col {
+  background-color: #FFD54F;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 1200px !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.mobile-menu {
+  display: none;
+  background-color: white;
+  border-top: 1px solid #f3f4f6;
+}
+
+.mobile-menu.active {
+  display: block;
+}
+
+.scroll-mt-20 {
+  scroll-margin-top: 5rem;
+}
+.goldicon {
+  max-width: 36px;
+  display: inline;
+}
+.borders-gold {border-color: #F2AF1D;}
+.iconbg-gold {background-color: #FFD82A;}
+.iconmax {
+  width: 100%;
+  max-width: 52px;
+}
+/* --- Banner 主視覺 --- */
+.hero-banner {
+  width: 100%;
+  height: 550px;
+  background: url('../img/banner.png') center center/cover no-repeat;
+  border-bottom-left-radius: 50% 12%;
+  border-bottom-right-radius: 50% 12%;
+  background-color: #fdf8e6;
+}
+@media (max-width: 768px) {
+  .hero-banner {
+    background: url('../img/bannerP.png') center center/cover no-repeat;
+    height: 400px;
+  }
+}
+@media (max-width: 380px) {
+  .hero-banner {
+    background: url('../img/bannerM.png') center center/cover no-repeat;
+    height: 400px;
+  }
+}
+/* --- Footer 與 警語 --- */
+footer {
+  background: #FFD82A;
+  color: #2E2E2E;
+  padding: 40px 0;
+  font-size: 0.85rem;
+}
+
+.warning-bar {
+  background: #2E2E2E;
+  color: #fff;
+  padding: 12px 0;
+  font-size: 0.85rem;
+}
+
+.list-type-decimel {
+  list-style-type: decimal
+}

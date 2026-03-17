@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>永豐期貨 - 黃金海期活動</title>
+  <!-- Bootstrap 5.3.3 -->
+  <link href="/css/bootstrap.5.3.3.min.css" rel="stylesheet">
+  <!-- Animate.css 4.1.1 -->
+  <link href="/css/animate.4.1.1.min.css" rel="stylesheet">
+  <!-- main.css -->
+  <link href="/css/main.css" rel="stylesheet">
+  <!-- Tailwind CSS Play CDN -->
+  <script src="/js/tailwindcss3.4.17.js"></script>
+  <!-- Lucide Icons -->
+  <script src="/js/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'spf-red': '#D65538',
+            'spf-gold': '#D4AF37',
+            'spf-cream': '#FFF9E6',
+            'spf-dark': '#333333',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="sticky-nav py-3">
+    <div class="container flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <img src="img/logo-sinopac-futures@2x.png" alt="永豐期貨" class="h-10" referrerpolicy="no-referrer">
+      </div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="#promo" class="text-gray-700 hover:text-spf-red transition-colors nav-link-scroll">海期達標送黃金</a>
+        <a href="#features" class="text-gray-700 hover:text-spf-red transition-colors nav-link-scroll">新戶/靜止再加碼</a>
+        <a href="#cta" class="text-gray-700 hover:text-spf-red transition-colors nav-link-scroll">大戶挑戰再加碼</a>
+        <a href="#faq" class="text-gray-700 hover:text-spf-red transition-colors nav-link-scroll">常見Q&A</a>
+        <a href="https://lihi3.me/SvM9j" target="_blank" class="bg-spf-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"> 立即開戶 </a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="menu-toggle" class="p-2 text-gray-600 hover:text-spf-red transition-colors">
+          <i data-lucide="menu" id="menu-icon"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="mobile-menu md:hidden">
+      <div class="container py-4 flex flex-col gap-4">
+        <a href="#promo" class="text-gray-700 hover:text-spf-red py-2 font-medium border-b border-gray-50 last:border-0 nav-link-scroll">海期達標送黃金</a>
+        <a href="#features" class="text-gray-700 hover:text-spf-red py-2 font-medium border-b border-gray-50 last:border-0 nav-link-scroll">新戶/靜止再加碼</a>
+        <a href="#cta" class="text-gray-700 hover:text-spf-red py-2 font-medium border-b border-gray-50 last:border-0 nav-link-scroll">大戶挑戰再加碼</a>
+        <a href="#faq" class="text-gray-700 hover:text-spf-red py-2 font-medium border-b border-gray-50 last:border-0 nav-link-scroll">常見Q&A</a>
+        <a href="https://lihi3.me/SvM9j" target="_blank" class="bg-spf-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"> 立即開戶 </a>
+      </div>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <div  id="promo" class="hero-banner animate__animated animate__fadeIn"></div>
+  <!-- Activity Section -->
+  <section id="features" class="py-16 bg-spf-cream scroll-mt-20">
+    <div class="container text-center">
+      <div class="animate__animated animate__zoomIn">
+        <h2 class="section-title">
+          <img class="goldicon" src="img/goldicon.png" alt="">
+          黃金活動辦法
+          <img class="goldicon" src="img/goldicon.png" alt="">
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 gap-8 max-w-4xl mx-auto">
+        <!-- Card 1 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">新戶/靜戶 再加碼</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            新戶/靜戶於2026年4-6月活動期間，累積海外期貨交易口數達250口，額外加碼贈送黃金1克，依客戶ID以一次為限。（微日經商品以0.5口計算）<br><br>
+            <span class="font-bold text-spf-red">新戶定義：</span>首次在永豐期貨開戶，以身分證字號判斷（有永豐金證券戶但沒有期貨帳戶者，使用加開期貨亦符合加碼資格）。<br>
+            <span class="font-bold text-spf-red">靜戶定義：</span>2026/01/01~03/31 海外期貨無任何交易筆數，即符合靜戶定義。
+          </p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">交易滿額贈獎</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            客戶當月交易外期口數達2,000口（含）以上，未達3,500口(不含)者，發放金條1克。<br><br>
+            客戶當月交易外期口數達3,500口（含）以上，發放金條1錢(約 3.75克) 。
+          </p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 id="cta" class="text-3xl font-bold text-[#1e40af] mb-6">大戶挑戰 再加碼</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            活動期間4-6月累積交易外期口數每達35,000(含)口，則再加碼1兩。<br><br>
+            <span class="font-bold text-spf-red">舉例：</span><br>
+            若Ａ大戶海外期貨口數4-6月累積交易達80,000口，則共可加贈2兩。（每達35,000口贈一兩，活動期間內共符合2次，即加贈2兩。）
+          </p>
+        </div>
+      </div>
+      <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">新戶/靜戶 再加碼</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            新戶/靜戶於2026年4-6月活動期間，累積海外期貨交易口數達250口，額外加碼贈送黃金1克，依客戶ID以一次為限。（微日經商品以0.5口計算）<br><br>
+            新戶定義：首次在永豐期貨開戶，以身分證字號判斷（有永豐金證券戶但沒有期貨帳戶者，使用加開期貨亦符合加碼資格）。<br>
+            靜戶定義：2026/01/01~03/31 海外期貨無任何交易筆數，即符合靜戶定義。 
+          </p>
+        </div>
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">交易滿額贈獎</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            客戶當月交易外期口數達2,000口（含）以上，未達3,500口(不含)者，發放金條1克。<br><br>
+            客戶當月交易外期口數達3,500口（含）以上，發放金條1錢(約 3.75克) 。
+          </p>
+        </div>
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">大戶挑戰 再加碼</h3>
+          <p class="text-gray-600 text-justify text-lg leading-relaxed">
+            活動期間4-6月累積交易外期口數每達35,000(含)口，則再加碼1兩。<br><br>
+            <span class="font-bold">舉例：</span><br>
+            若Ａ大戶海外期貨口數4-6月累積交易達80,000萬，則共可加贈2兩。（每達35,000口贈一兩，活期間內共符合2次，即加贈2兩。）
+
+          </p>
+        </div>
+      </div> -->
+      <!-- <div class="mx-auto overflow-x-auto">
+        <table class="table-custom shadow">
+          <thead>
+            <tr>
+              <th>門檻</th>
+              <th>動用戶</th>
+              <th>新戶/靜止再加碼</th>
+              <th>大戶挑戰再加碼</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-gray-50">
+              <td class="font-bold">門檻</td>
+              <td>2,000口 (當月)</td>
+              <td>3,500口 (當月)</td>
+              <td>達250口 (4-6月累積)</td>
+              <td>每達3.5萬口 (4-6月累積)</td>
+            </tr>
+            <tr>
+              <td class="font-bold">獎品</td>
+              <td>金幣1克</td>
+              <td>金幣1錢</td>
+              <td>金幣1克</td>
+              <td>金幣1兩 (約37.5克)</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="font-bold">備註</td>
+              <td>「當月」交易達2,000口 (含)則領取金幣1克</td>
+              <td>當月」交易達3,500口 (含)則領取金幣1錢(約3.75克)</td>
+              <td>活動期間加碼一次</td>
+              <td>4-6月累積，每達3.5萬口再加碼1兩</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- Advantages Section -->
+  <section class="py-16 bg-white">
+    <div class="container text-center">
+      <h2 class="section-title">上班族適合參與海外期貨交易嗎？</h2>
+      <!-- Middle Part -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 mb-24 w-full max-w-6xl animate-on-scroll">
+              <!-- Illustration -->
+              <div class="w-full md:w-1/3 flex justify-center relative">
+                  <div class="w-56 h-56 md:w-72 md:h-72 bg-[#F5E6C4] rounded-full flex items-center justify-center overflow-hidden border-5 border-white shadow-sm">
+                    <img src="img/figure.png" alt="User" class="w-full h-full object-cover scale-110 translate-y-4">
+                  </div>
+              </div>
+              <!-- Text Box -->
+              <div class="w-full md:w-2/3 bg-white border-[3px] borders-gold rounded-[40px] p-10 md:p-10 shadow-sm text-center md:text-left">
+                  <p class="text-left text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
+                    下班後，才是您財富增值的黃金時刻！</br>
+                    身為上班族的您，是否總覺得投資處處受限？</br>
+                    白天要上班，晚上美股大漲大跌卻只能乾著急？
+                  </p>
+              </div>
+          </div>
+      <h3 class="text-3xl font-bold text-[#1e40af] mb-6">交易海外期貨優點</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <!-- Card 1 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+            <img src="img/icon1.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+          </div>
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">多元商品組合</h3>
+          <p class="text-gray-600 text-lg leading-relaxed text-justify">
+              從指數、金屬到農產品，真正實現跨市場資產配置，不只侷限科技股。
+          </p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+            <img src="img/icon2.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+          </div>
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">小資金也能參與</h3>
+          <p class="text-gray-600 text-lg leading-relaxed text-justify">
+              微型期貨誕生，微型黃金等商品，保證金門檻低，資金運用更靈活，風險更好控管。
+          </p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+          <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+            <img src="img/icon3.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+          </div>
+          <h3 class="text-3xl font-bold text-[#1e40af] mb-6">完美銜接您的作息</h3>
+          <p class="text-gray-600 text-lg leading-relaxed text-justify">
+              台灣時間的晚上，正是歐美市場最活躍的時刻，下班後參與全球行情。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Step Section -->
+  <section id="steps" class="py-24 bg-spf-cream">
+      <div class="container flex flex-col items-center">
+          <!-- Title Speech Bubble -->
+          <div class="relative animate-on-scroll">
+            <h2 class="section-title">踏入海期新市場，您不是一個人。我們陪您穩健起步！</h2>
+          </div>
+
+          <!-- Middle Part -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 mb-24 w-full max-w-6xl animate-on-scroll">
+              <!-- Illustration -->
+              <div class="w-full md:w-1/3 flex justify-center relative">
+                  <div class="w-56 h-56 md:w-72 md:h-72 bg-[#F5E6C4] rounded-full flex items-center justify-center overflow-hidden border-5 border-white shadow-sm">
+                    <img src="img/figure1.png" alt="User" class="w-full h-full object-cover scale-110 translate-y-4">
+                  </div>
+              </div>
+              <!-- Text Box -->
+              <div class="w-full md:w-2/3 bg-white border-[3px] borders-gold rounded-[40px] p-10 md:p-14 shadow-sm text-center md:text-left">
+                  <p class="text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
+                      對海外期貨感到陌生和不安嗎？<br>
+                      就像第一次開車，需要教練在旁指導。
+                  </p>
+              </div>
+          </div>
+
+          <!-- Three Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full animate-on-scroll">
+            <!-- Card 1 -->
+            <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+              <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+                <img src="img/icon4.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+              </div>
+              <h3 class="text-3xl font-bold text-[#1e40af] mb-6">一對一專人服務</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                  從開戶、軟體操作流程，您的專屬營業員將全程引導，解決您所有疑問。
+              </p>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+              <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+                <img src="img/icon5.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+              </div>
+              <h3 class="text-3xl font-bold text-[#1e40af] mb-6">從微小型商品開始</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                  先從保證金較低的「微、小型商品」小試身手，用較小的資金體驗全球市場，累積實戰經驗。
+              </p>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-white border-[2px] borders-gold rounded-[50px] p-10 text-center shadow-[5px_5px_0px_#F2AF1D] transition-transform hover:-translate-y-2">
+              <div class="iconbg-gold w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-white shadow">
+                <img src="img/icon6.png" alt="Icon" class="object-contain iconmax" referrerpolicy="no-referrer">
+              </div>
+              <h3 class="text-3xl font-bold text-[#1e40af] mb-6">智慧交易下單</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                  透過我們的智慧交易單功能，讓您預先設定停損停利，即使關掉電腦，也能嚴格執行風險控管。
+              </p>
+            </div>
+          </div>
+      </div>
+  </section>
+
+
+  <!-- Teaching Section -->
+  <section class="py-20 bg-white">
+      <div class="container text-center">
+        <h2 class="section-title">國外智慧單-停損停利單教學</h2>
+        <div class="mx-auto">
+          <a href="https://lihi3.me/kRBvN" target="_blank" class="block relative rounded-[40px] overflow-hidden shadow-[20px_20px_0px_#FFF9E6] border-4 border-spf-gold group no-underline">
+            <img src="img/image 9.png" alt="Teaching" class="w-full" referrerpolicy="no-referrer">
+            <div class="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-colors">
+              <div class="bg-spf-red text-white p-6 rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                <i data-lucide="chevron-right" class="w-12 h-12"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+  </section>
+  <!-- Products Section -->
+  <section class="py-16 bg-spf-cream">
+    <div class="container text-center">
+      <h2 class="section-title">熱門交易商品</h2>
+      <div class="space-y-12">
+        <!-- Gold Table -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm">
+          <h3 class="table-title-pill">黃金期貨保證金及合約介紹</h3>
+          <div class="overflow-x-auto">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>代碼</th>
+                  <th>每跳動點價值(Tick)</th>
+                  <th>原始保證金(USD)</th>
+                  <th>約當台幣</th>
+                  <th>維持保證金(USD)</th>
+                  <th>當沖保證金(USD)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="first-col">黃金</td>
+                  <td>GC</td>
+                  <td>0.1點=10美元</td>
+                  <td>51,956</td>
+                  <td>1,637,030</td>
+                  <td>47,232</td>
+                  <td>25,978</td>
+                </tr>
+                <tr>
+                  <td class="first-col">微型黃金</td>
+                  <td>MGC</td>
+                  <td>0.1點=1美元</td>
+                  <td>5,197</td>
+                  <td>163,747</td>
+                  <td>4,724</td>
+                  <td>2,599</td>
+                </tr>
+                <tr>
+                  <td class="first-col">一盎司黃金</td>
+                  <td>1OZ</td>
+                  <td>0.25點=0.25美元</td>
+                  <td>521</td>
+                  <td>16,416</td>
+                  <td>473</td>
+                  <td>261</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-left text-gray-500 p-1">*保證金以交易所公告為主</p>
+        </div>
+        <!-- Oil Table -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm">
+          <h3 class="table-title-pill">原油期貨保證金及合約介紹</h3>
+          <div class="overflow-x-auto">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>代碼</th>
+                  <th>每跳動點價值(Tick)</th>
+                  <th>原始保證金(USD)</th>
+                  <th>約當台幣</th>
+                  <th>維持保證金(USD)</th>
+                  <th>當沖保證金(USD)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="first-col">輕原油</td>
+                  <td>CL</td>
+                  <td>0.1點=10美元</td>
+                  <td>51,956</td>
+                  <td>1,637,030</td>
+                  <td>47,232</td>
+                  <td>25,978</td>
+                </tr>
+                <tr>
+                  <td class="first-col">小原油</td>
+                  <td>QM</td>
+                  <td>0.1點=1美元</td>
+                  <td>5,197</td>
+                  <td>163,747</td>
+                  <td>4,724</td>
+                  <td>2,599</td>
+                </tr>
+                <tr>
+                  <td class="first-col">微型原油</td>
+                  <td>MCL</td>
+                  <td>0.25點=0.25美元</td>
+                  <td>521</td>
+                  <td>16,416</td>
+                  <td>473</td>
+                  <td>261</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-left text-gray-500 p-1">*保證金以交易所公告為主</p>
+        </div>
+      </div>
+      <div class="alert" role="alert">
+        *詳細資料請參考各交易所網站，本資料僅供參考，相關資訊請以交易所公告為準。
+      </div>
+    </div>
+  </section>
+  <!-- CTA Section -->
+  <section class="pb-24 bg-spf-cream relative overflow-hidden">
+    <div class="container flex flex-col items-center relative z-10">
+      <!-- Speech Bubble -->
+      <div class="relative mb-16 animate-on-scroll">
+        <div class="bg-spf-red text-white px-8 md:px-12 py-4 md:py-6 rounded-[40px] text-2xl md:text-4xl font-bold flex items-center gap-4 shadow-sm">
+          <span class="text-4xl">💰</span> 機會不等人，送黃金更不等！
+        </div>
+        <!-- Triangle -->
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[20px] border-t-spf-red"></div>
+      </div>
+      <!-- Bottom Layout -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 animate-on-scroll">
+        <!-- Avatar -->
+        <div class="w-56 h-56 md:w-72 md:h-72 bg-[#F5E6C4] rounded-full flex items-center justify-center overflow-hidden border-5 border-white shadow-sm">
+          <img src="img/figure2.png" alt="User" class="w-full h-full object-cover scale-110 translate-y-4">
+        </div>
+        <!-- Action Box -->
+        <a href="https://lihi3.me/SvM9j" class="group no-underline">
+          <div class="bg-white border-[4px] borders-gold rounded-[30px] px-8 py-8 md:px-12 md:py-10 flex items-center gap-6 md:gap-10 shadow-[5px_5px_0px_#F2AF1D] transition-all group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none">
+            <div class="text-2xl md:text-4xl font-bold text-spf-dark leading-tight"> 立即開戶送好禮， <br> 搶佔先機市場！ </div>
+            <div class="bg-spf-gold text-white p-3 md:p-5 rounded-full shadow flex items-center justify-center">
+              <i data-lucide="arrow-right" class="w-8 h-8 md:w-12 md:h-12"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- QA Section -->
+  <section id="faq" class="py-16 bg-white scroll-mt-20">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-title">常見Q&A</h2>
+      </div>
+      <div class="mx-auto space-y-6">
+        <div class="bg-spf-cream p-8 rounded-2xl shadow-sm border-l-8 border-spf-red">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="help-circle" class="text-spf-red"></i> Q1. 黃金兌換與使用說明
+          </h3>
+          <p class="text-gray-700 leading-relaxed"> 本活動贈品（黃金條）會由所屬營業員聯繫，客戶應填寫確認回傳單，黃金條最慢於活動結束2個月內交付後由客戶簽收確認。
+贈品之實體黃金條維持足重，但本公司保留依主辦單位指定款式為準，恕不挑款、不得折現、轉讓或要求更換等值或相近價值之商品。 </p>
+        </div>
+        <div class="bg-spf-cream p-8 rounded-2xl shadow-sm border-l-8 border-spf-red">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="help-circle" class="text-spf-red"></i> Q2. 得獎人代扣 10% 所得稅
+          </h3>
+          <p class="text-gray-700 leading-relaxed"> 領獎時需配合稅法規定：境內居住者中獎價值超過 2 萬元須扣繳 10%；非境內居住者則不限金額一律扣繳 20%。所有中獎紀錄均會依規定向國稅局進行年度申報，請得獎者配合提供相關證件資料。此外，參加本活動即代表同意主辦單位收集您的個資用於兌獎作業。若拒絕提供資料，將視為自動放棄領獎資格，主辦單位不再補發獎項。 </p>
+        </div>
+        <div class="bg-spf-cream p-8 rounded-2xl shadow-sm border-l-8 border-spf-red">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="help-circle" class="text-spf-red"></i> Q3. 黃金條商品問題
+          </h3>
+          <p class="text-gray-700 leading-relaxed"> 本活動之黃金條贈品，若有疑問請洽詢原供應商，如因使用本獎項而引起之爭議、糾紛、損害賠償，由黃金商品廠商負責。 </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer Section -->
+  <footer class="bg-gray-100 py-16">
+    <div class="container">
+      <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200 mb-12">
+        <h3 class="text-xl font-bold text-spf-red mb-6 flex items-center gap-2">
+          <i data-lucide="alert-circle"></i> 注意事項
+        </h3>
+        <ol class="list-decimal list-inside space-y-3 text-sm text-gray-600 leading-relaxed">
+          <li>本活動同身分證號的各期貨帳戶視為一戶，不適用法人戶。</li>
+          <li>全新戶再加碼活動：以身分證字號判斷，限從未於永豐期貨開立過期貨戶者參加(有永豐金證券戶沒有期貨帳戶者，使用加開期貨亦符合加碼資格)。</li>
+          <li>依所得稅法規定，機會中獎之獎項價值超過NT$1,000，所得將列入個人年度綜合所得稅申報，若獎品價值總額超過NT$20,000，必須代扣10%中獎獎金稅額；非中華民國國境內居住之個人(即在中華民國境內居住未滿183天之本國人及外國人)不論得獎者所得之金額，須就中獎所得扣繳20%機會中獎稅。扣繳稅款未超過NT$2,000，免扣繳(外籍人士不適用)。若得獎者不願先行繳納稅金，視同放棄中獎資格，視為放棄得獎權益。</li>
+          <li>參加活動者，交易若有涉嫌違反期交所、洗錢防制法、臺灣期貨交易所或海外期貨交易所之相關規定，主辦單位有權取消其抽獎或獲獎之資格。</li>
+          <li>本活動如有未盡事宜，永豐期貨擁有保留、修改、暫停及解釋活動內容之權利，修改訊息將於本網站上公佈，不另行通知。</li>
+          <li>得獎者同意相關個人資訊由本公司於活動範圍內進行蒐集、電腦處理及利用，得獎者並授權本公司公開公佈姓名，並不做其他用途。</li>
+          <li>中獎獎品如遇產品缺貨或不可抗力之事由導致獎品內容變更，主辦單位有權變更贈品，改由等值商品取代之，得獎者不得要求折現或轉換其他商品，且主辦單位對贈品不負任何擔保或瑕疵擔保責任。</li>
+          <li>期貨交易具槓桿保證金的各類型交易財務槓桿極高，投資人請慎重考量自身財務能力，並特別留意控管風險；使用電子下單交易委託買賣時，仍可能面臨斷線、斷電、網路壅塞等不確定因素，致使委託買賣無法傳送或接收或延遲，投資人交易時應自行留意。</li>
+        </ol>
+      </div>
+      <div class="text-center space-y-4 text-gray-500 text-sm">
+        <p class="font-bold">永豐金證券股份有限公司 | 台北市重慶南路一段二號7、18、20樓</p>
+        <p>客服專線：0800-038-123、02-6630-8899 | 股務代理專線：02-8171-5345 | 客服營業時間 AM 08:00~PM 09:00</p>
+        <p>114年金管證總字第 0058 號 (永豐金證券) | 114年金管證總字第 010 號 (委託代收期貨保證金)</p>
+        <hr class="border-gray-300 my-8">
+        <p>永豐期貨股份有限公司 | 台北市重慶南路一段二號8樓 | 02-2381-1799 | 114年金管期總字第010號</p>
+      </div>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
