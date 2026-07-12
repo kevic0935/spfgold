@@ -1,565 +1,807 @@
-<!DOCTYPE html>
-<html lang="zh-Hant-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>永豐期貨 - 海期達標送黃金 | 錨點捲動版</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- 1. 基礎設定與平滑捲動 --- */
-        html {
-            scroll-behavior: smooth;
-            /* 導覽列高度約為 70px，設定捲動位移補償，避免標題被遮住 */
-            scroll-padding-top: 80px; 
-        }
-
-        :root {
-            /* 原本變數 */
-            --spf-red: #D65538;
-            --spf-blue: #003058;
-            --spf-yellow: #F2AF1D;
-            --spf-beige: #fdf8e6;
-
-            /* 新增活動辦法專用顏色 */
-            --spf-blue-mid: #2D5DAA;    /* 動用戶藍 */
-            --spf-blue-dark: #2D5DAA;   /* 新戶深藍 */
-            --spf-orange: #D65538;      /* 大戶橘紅 */
-            --spf-gray-light: #f5f5f5;
-            --spf-gray-header: #BDBDBD;
-        }
-
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: var(--spf-beige);
-            color: #333;
-        }
-
-        /* --- 2. Navbar 導覽列 --- */
-        .navbar { background-color: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .navbar-brand img { height: 40px; }
-        .nav-link { font-weight: 500; color: #333 !important; margin: 0 10px; }
-        .nav-link:hover { color: var(--spf-red) !important; }
-        
-        .btn-nav-red {
-            background-color: var(--spf-red);
-            color: #fff !important;
-            border-radius: 50px;
-            padding: 8px 25px !important;
-            font-weight: bold;
-        }
-
-        /* --- 3. Banner 主視覺 --- */
-        .hero-banner {
-            width: 100%;
-            height: 550px;
-            background: url('img/banner.png') center center/cover no-repeat;
-            border-bottom-left-radius: 50% 12%;
-            border-bottom-right-radius: 50% 12%;
-            background-color: #fff;
-        }
-
-        /* --- 4. 原本通用組件 (對話框標題、主表格、特色卡片、CTA) --- */
-        .section-tag-wrapper { text-align: center; margin-bottom: 30px; }
-        .section-tag {
-            background: var(--spf-red);
-            color: #fff;
-            padding: 6px 30px;
-            border-radius: 50px;
-            display: inline-block;
-            font-size: 2rem;
-            font-weight: bold;
-            position: relative;
-        }
-        .section-tag::after {
-            content: ''; position: absolute; bottom: -8px; left: 50%;
-            transform: translateX(-50%); border-left: 8px solid transparent;
-            border-right: 8px solid transparent; border-top: 8px solid var(--spf-red);
-        }
-
-        .table-main { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .table-main th { background-color: var(--spf-blue); color: #fff; text-align: center; }
-        .highlight-red { background-color: var(--spf-red); }
-
-        .feature-card {
-            background: #fff; border: 2px solid var(--spf-yellow);
-            border-radius: 20px; padding: 30px 20px; height: 100%; transition: 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-10px); }
-
-        .cta-box {
-            background: #fff; border-radius: 100px; padding: 15px 45px;
-            display: inline-flex; align-items: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-decoration: none; color: var(--spf-blue); font-weight: bold;
-        }
-
-        /* --- 5. 新增：黃金活動辦法專用樣式 --- */
-        .rule-container {
-            background-color: #fff;
-            border: 2px solid var(--spf-yellow);
-            border-radius: 40px;
-            padding: 30px;
-            margin-top: 100px;
-            position: relative;
-        }
-
-        .rule-title-box {
-            background-color: var(--spf-red);
-            color: #fff;
-            padding: 12px 36px;
-            border-radius: 60px;
-            display: inline-block;
-            font-size: 2rem;
-            font-weight: bold;
-            line-height: 36px;
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .rule-title-box::after {
-            content: ''; position: absolute; bottom: -12px; left: 50%;
-            transform: translateX(-50%); border-left: 12px solid transparent;
-            border-right: 12px solid transparent; border-top: 12px solid var(--spf-red);
-        }
-
-        .table-rule { border-collapse: separate; border-spacing: 2px; width: 100%; }
-        .table-rule th, .table-rule td { padding: 15px 10px; text-align: center; border: none !important; }
-        
-        .row-header { background-color: var(--spf-gray-header); color: #333; font-weight: bold; width: 100px; border-radius: 10px 0 0 10px; }
-        
-        .th-active { background-color: var(--spf-blue-mid); color: #fff; }
-        .th-new { background-color: var(--spf-blue-dark); color: #fff; }
-        .th-whale { background-color: var(--spf-orange); color: #fff; border-radius: 0 10px 10px 0; }
-        .th-active-left { border-radius: 10px 0 0 0; }
-
-        .cell-light { background-color: #fff; }
-        .cell-gray { background-color: var(--spf-gray-light); }
-
-        .goldicon {
-            max-width: 36px;
-        }
-
-        /* --- CTA 區塊容器 --- */
-        .cta-container { 
-            max-width: 900px;
-            margin: 100px auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* --- 紅色對話框標題 --- */
-        .promo-bubble {
-            background-color: var(--spf-red);
-            color: #fff;
-            padding: 12px 50px;
-            border-radius: 60px;
-            display: inline-flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            position: relative;
-            margin-bottom: 50px;
-            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.2);
-            white-space: nowrap;
-        }
-
-        /* 對話框尖角 */
-        .promo-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid var(--spf-red);
-        }
-
-        .promo-bubble .icon-gold {
-            width: 40px;
-            margin-right: 15px;
-        }
-
-        /* --- 主內容列 (頭像 + 按鈕) --- */
-        .cta-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        /* 頭像 */
-        .avatar-circle {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            overflow: hidden;
-            background-color: rgba(242,175,29,0.3);
-            border: 1px solid #eee;
-            flex-shrink: 0;
-        }
-
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 點擊按鈕框 */
-        .cta-button-box {
-            background-color: #fff;
-            border: 3px solid var(--spf-yellow);
-            border-radius: 25px;
-            padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 0 8px 0px rgba(253, 208, 0, 0.1);
-        }
-
-        .cta-button-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(253, 208, 0, 0.3);
-            color: var(--spf-red);
-        }
-
-        .cta-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: left;
-            line-height: 1.3;
-            margin-right: 20px;
-        }
-
-        /* 黃色箭頭圓圈 */
-        .arrow-circle {
-            background-color: var(--spf-yellow);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .arrow-circle i {
-            color: #fff;
-            width: 30px;
-            height: 30px;
-        }
-
-        /* --- 活動辦法表格樣式 --- */
-        .rule-container {
-            background-color: #fff; border: 4px solid #fdd000;
-            border-radius: 40px; padding: 60px 20px 30px; margin-top: 80px; position: relative;
-        }
-        .table-rule { min-width: 850px; border-collapse: separate; border-spacing: 2px; }
-        .table-rule th, .table-rule td { padding: 15px; text-align: center; border: none !important; }
-        .row-header { background-color: #bdbdbd; color: #333; font-weight: bold; width: 100px; border-radius: 10px 0 0 10px; }
-
-        /* --- 商品保證金外框 --- */
-        .product-outer-container {
-            border: 2px solid #fdd000; border-radius: 40px;
-            background-color: #fff; padding: 60px 20px; margin: 50px auto;
-        }
-        .pill-title {
-            display: inline-block; border: 3px solid #fdd000;
-            padding: 10px 40px; border-radius: 50px; font-weight: bold; font-size: 1.4rem;
-        }
-        .table-product { min-width: 900px; border-radius: 20px; overflow: hidden; }
-        .col-yellow-name { background-color: #fdd000 !important; font-weight: bold; width: 150px; }
-
-        /* --- QA -- */
-        #faq .border-2 { border: 2px solid var(--spf-yellow); }
-        #faq h6 {font-size: 24px; }
-        #faq p {color: #535353; background-color: rgba(242,175,29,0.1); padding: 12px; border-radius: 10px; }
-
-        /* --- 6. Footer 與 警語 --- */
-        footer { background: #FFD82A; color: #2E2E2E; padding: 40px 0; font-size: 0.85rem; }
-        .warning-bar { background: #2E2E2E; color: #fff; padding: 12px 0; font-size: 0.85rem; }
-        .list-type-decimel{ list-style-type: decimal}
-        
-
-        /* 表格響應式優化：確保在小螢幕不擠壓 */
-        .table-responsive {
-            -webkit-overflow-scrolling: touch; /* 優化 iOS 滑動順暢度 */
-            overflow-x: auto;
-            border-radius: 10px; /* 配合表格圓角 */
-        }
-
-        /* 針對活動辦法表格：設定最小寬度，確保內容不換行擠壓 */
-        .table-rule {
-            min-width: 800px; /* 當螢幕寬度小於 800px 時產生捲動 */
-        }
-
-        /* 如果原本的比較表格也需要不擠壓 */
-        .table-main {
-            min-width: 600px; 
-        }
-
-        /* 自定義捲動條樣式（可選，讓介面更精緻） */
-        .table-responsive::-webkit-scrollbar {
-            height: 6px;
-        }
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: var(--spf-gray-header);
-            border-radius: 10px;
-        }
-        .table-responsive::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        /* --- 7. RWD 響應式調整 (合併版) --- */
-        @media (max-width: 991.98px) {
-            /* 原本 Banner RWD */
-            .hero-banner { height: 350px; border-bottom-left-radius: 50% 8%; border-bottom-right-radius: 50% 8%; }
-            
-            /* 活動辦法標題 RWD */
-            .rule-title-box { font-size: 1.4rem; padding: 10px 30px; top: -35px; }
-            .table-rule { font-size: 0.85rem; }
-            
-            /* CTA RWD */
-            .cta-box { padding: 12px 25px; font-size: 1rem; border-radius: 40px; }
-        }
-    </style>
-</head>
-<body>
-
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="img/logo-sinopac-futures@2x.png" alt="永豐期貨">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#promo">海期達標送黃金</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">新戶/靜戶再加碼</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#cta">大戶挑戰再加碼</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faq">常見Q&A</a></li>
-                    <li class="nav-item ms-lg-3"><a class="nav-link btn-nav-red animate__animated animate__pulse animate__infinite" href="#cta">立即開戶</a></li>
-                </ul>
-            </div>
-        </div>
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="永豐期貨 × 交割有黃金計畫">
+    <title>
+      永豐期貨｜海期掏金季
+    </title>
+    <link rel="stylesheet" href="css/bootstrap.5.3.3.min.css">
+    <link rel="stylesheet" href="css/animate.4.1.1.min.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand bg-white fixed-top shadow-sm">
+      <div class="container px-3">
+        <a class="navbar-brand" href="#top">
+          <img src="assets/logo2.png" alt="永豐期貨">
+        </a>
+        <a class="btn btn-danger btn-sm ms-2" href="https://lihi3.me/SvM9j" target="_blank">
+          立即線上開戶
+        </a>
+      </div>
     </nav>
-
-    <div class="hero-banner animate__animated animate__fadeIn"></div>
-
-    <section id="promo" class="container py-5">
-        <div class="rule-container animate__animated animate__fadeInUp shadow-sm">
-            <div class="rule-title-box">
-                <img class="goldicon" src="/img/goldicon.png" alt=""> 
-                黃金活動辦法
-                <img class="goldicon" src="/img/goldicon.png" alt=""> 
-            </div>
-
-            <div class="table-responsive">
-                <table class="table-rule">
-                    <thead>
-                        <tr>
-                            <th class="row-header"></th>
-                            <th colspan="2" class="th-active">動用戶</th>
-                            <th class="th-new">新戶/靜止<br>再加碼</th>
-                            <th class="th-whale">大戶挑戰賽<br>再加碼</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="row-header">門檻</td>
-                            <td class="cell-gray" style="width: 20%;">2,000口<br>(當月)</td>
-                            <td class="cell-light" style="width: 20%;">3,500口<br>(當月)</td>
-                            <td class="cell-gray">達250口<br>(4-6月累積)</td>
-                            <td class="cell-light">每達3.5萬口<br>(4-6月累積)</td>
-                        </tr>
-                        <tr>
-                            <td class="row-header">獎品</td>
-                            <td class="cell-gray">金條1克</td>
-                            <td class="cell-light">金條1錢</td>
-                            <td class="cell-gray">金條1克</td>
-                            <td class="cell-light">金條1兩<br>(約37.5克)</td>
-                        </tr>
-                        <tr>
-                            <td class="row-header" style="border-radius: 0 0 0 10px;">備註</td>
-                            <td class="cell-gray">「當月」交易達2,000口(含)則領取金條1克</td>
-                            <td class="cell-light">「當月」交易達3,500口(含)則領取金條1錢(約3.75克)</td>
-                            <td class="cell-gray">活動期間加碼一次</td>
-                            <td class="cell-light">4-6月累積，每達3.5萬口再加碼1兩</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="container py-5">
-        <div class="section-tag-wrapper">
-            <div class="section-tag">為何專業交易員都選海外期貨？上班族適合參與嗎?</div>
-        </div>
-        <div class="row g-4 text-center mt-2">
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="h1 mb-3">💎</div>
-                    <h5 class="fw-bold">多元組合</h5>
-                    <p class="small text-muted mb-0">靈活配置全球資產組合。</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="h1 mb-3">🛡️</div>
-                    <h5 class="fw-bold">24H 服務</h5>
-                    <p class="small text-muted mb-0">專業團隊隨時掌握市場脈動。</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="h1 mb-3">📱</div>
-                    <h5 class="fw-bold">智慧下單</h5>
-                    <p class="small text-muted mb-0">APP 功能強大，投資得心應手。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="products" class="container mx-auto px-4 py-20">
-        <div class="product-outer-container text-center">
-            <div class="pill-title mb-10">黃金期貨保證金及合約介紹</div>
-            <div class="table-responsive">
-                <table class="table-product">
-                    <thead class="bg-gray-400 text-white">
-                        <tr>
-                            <th class="bg-gray-300"></th>
-                            <th>代碼</th>
-                            <th>每跳動點價值</th>
-                            <th>原始保證金</th>
-                            <th>約當台幣</th>
-                            <th>當沖保證金</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-gray-50">
-                            <td class="col-yellow-name">黃金</td>
-                            <td>GC</td>
-                            <td>0.1點=10美元</td>
-                            <td>51,956</td>
-                            <td class="font-bold">1,637,030</td>
-                            <td>25,978</td>
-                        </tr>
-                        <tr class="bg-white">
-                            <td class="col-yellow-name">微型黃金</td>
-                            <td>MGC</td>
-                            <td>0.1點=1美元</td>
-                            <td>5,197</td>
-                            <td class="font-bold">163,747</td>
-                            <td>2,599</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section id="cta" class="cta-container">
-        <div class="promo-bubble animate__animated animate__fadeInDown">
+    <main id="top">
+      <header class="hero">
+        <picture>
+          <source media="(max-width: 380px)" srcset="assets/bannerM.jpg">
+          <source media="(max-width: 980px)" srcset="assets/bannerP.jpg">
+          <img src="assets/banner.jpg" alt="親子一起種下財富的種子">
+        </picture>
+        <div class="hero-copy container hero-actions">
+          <a class="btn btn-danger btn-lg" href="https://lihi3.me/SvM9j" target="_blank">
+            立即線上開戶參加活動
             <span>
-                <img class="goldicon" src="img/goldicon.png" alt="">
-                機會不等人，送黃金更不等！
+              →
             </span>
+          </a>
+          <a class="btn btn-amber btn-lg" href="#rules">
+            了解獎勵機制
+          </a>
         </div>
+      </header>
+      <section class="section intro">
+        <div class="container text-center">
+          <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+            <img class="goldicon" src="assets/goldicon.png" alt="">
+            永豐期貨 × 交易存黃金計畫
+            <img class="goldicon" src="assets/goldicon.png" alt="">
+          </h2>
+          <h3 class="intro-heading">
+            炫麗小金豆｜999.9 純金
+          </h3>
+          <div class="row g-4 justify-content-center">
+            <div class="col-12 col-md-6 transition-transform hover:-translate-y-2">
+              <article class="product-card">
+                <img src="assets/gold_jar.png" alt="炫麗小金豆 999.9 純金">
+                <h3>
+                  炫麗小金豆
+                </h3>
+                <p>
+                  999.9 純金
+                </p>
+              </article>
+            </div>
+            <div class="col-12 col-md-6 transition-transform hover:-translate-y-2">
+              <article class="product-card">
+                <img src="assets/gold_coins.png" alt="金豆育苗瓶">
+                <h3>
+                  金豆育苗瓶
+                </h3>
+                <p>
+                  每月放入一顆，見證累積的每一步
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <div class="cta-content">
-            <div class="avatar-circle animate__animated animate__zoomIn">
-                <img src="img/gold1.png" alt="立即開戶">
+      <section class="section spotlight animate-on-scroll animate__animated animate__fadeInUp">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              交易的成果，不應該只停留在帳戶數字
+            </h2>
+          </div>
+          <div class="row align-items-center g-4 mt-3 spotlight-wrap">
+            <div class="col-lg-4 text-center">
+              <div class="spotlight-figure">
+                <img src="assets/figure4.png" alt="交易的成果，不應該只停留在帳戶數字">
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="spotlight-quote">
+                <p>
+                  每一筆交易的背後，
+                  <br>
+                  都有爸爸媽媽默默付出的辛勞。
+                  <br>
+                  現在，讓每一口交易都變成孩子手中看的見的真實黃金。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-md-4 transition-transform hover:-translate-y-2">
+              <article class="benefit product-card">
+                <div class="benefit-icon">
+                  <img src="assets/spotlightIcon01.png" alt="交易也存金豆">
+                </div>
+                <h3>
+                  交易也存金豆
+                </h3>
+                <p>
+                  每次達標，即獲得實體金豆。直接轉化為可觸摸的財富。
+                </p>
+              </article>
+            </div>
+            <div class="col-12 col-md-4 transition-transform hover:-translate-y-2">
+              <article class="benefit product-card">
+                <div class="benefit-icon">
+                  <img src="assets/spotlightIcon02.png" alt="金豆育苗儀式感">2
+                </div>
+                <h3>
+                  金豆育苗儀式感
+                </h3>
+                <p>
+                  金豆育苗瓶讓每月放入金條成為親子儀式，讓孩子感受財富累積的過程。
+                </p>
+              </article>
+            </div>
+            <div class="col-12 col-md-4 transition-transform hover:-translate-y-2">
+              <article class="benefit product-card">
+                <div class="benefit-icon">
+                  <img src="assets/spotlightIcon03.png" alt="刻上姓名的紀念幣">
+                </div>
+                <h3>
+                  刻上姓名的紀念幣
+                </h3>
+                <p>
+                  刻有您名字的客製化金(銀)幣，讓您曾經交易的榮耀，被有溫度的紀錄下來。
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section rules scroll-mt-20" id="rules">
+        <div class="container">
+          <div class="text-center rules-intro">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              活動獎勵機制
+            </h2>
+            <h3 class="rules-subtitle">
+              從種子到大樹，每一步都有黃金相伴
+            </h3>
+          </div>
+
+          <div class="rules-timeline">
+            <div class="rules-step">
+              <img src="assets/rules01.png" alt="第 1 個月">
+              <span>第 1 個月</span>
+            </div>
+            <div class="rules-step">
+              <img src="assets/rules02.png" alt="第 2 個月">
+              <span>第 2 個月</span>
+            </div>
+            <div class="rules-step">
+              <img src="assets/rules03.png" alt="第 3 個月">
+              <span>第 3 個月</span>
+            </div>
+            <div class="rules-step">
+              <img src="assets/rules04.png" alt="第 6 個月">
+              <span>第 6 個月</span>
+            </div>
+          </div>
+
+          <div class="rules-plan-card text-center">
+            <div class="rules-plan-capsule">
+              <h4>交易存黃金計畫1：讓永豐期貨陪您種下第一顆金豆！</h4>
+            </div>
+            <h5 class="rules-plan-title">
+              首次開戶的新朋友，或 2026 年未曾交易海期的老朋友們看過來！
+            </h5>
+            <p>
+              在2026年7-12月任 3 個月加總海期交易達 250 口，讓永豐期貨支持你！再加碼送你金豆１克！
+            </p>
+            <div class="table-responsive">
+              <table class="table rules-table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th width="50%">新戶定義</th>
+                    <th width="50%">靜戶定義</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-left">
+                    <td>首次在永豐期貨開戶，以身分證字號判斷（有永豐金證券戶但沒有期貨帳戶者，使用加開期貨亦符合加碼資格。）</td>
+                    <td>2026/01/01~06/30 海外期貨無任何交易筆數，即符合靜戶定義。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-left">
+              <small class="text-muted">*小提醒：依客戶ID以一次為限、微日經商品以0.5口計算。</small>
+            </p>
+          </div>
+
+          <div class="rules-plan-card text-center">
+            <div class="rules-plan-capsule">
+              <h4>交易存黃金計畫 2：金豆育苗瓶 每月看見財富的累積</h4>
+            </div>
+            <h5 class="rules-plan-title">
+              透過每月存入的金豆，種下親子理財的種子
+            </h5>
+            <p>
+              用「金豆育苗瓶」開啟每月的存金豆計劃，帶孩子親眼看見財富累積的過程，更在心中悄悄種下一顆受用一生的財商種子。
+            </p>
+            <div class="table-responsive">
+              <table class="table rules-table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>當月交易口數</th>
+                    <th>贈送黃金品項</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>3500 口</td>
+                    <td class="coin">金豆 1 錢（3.75克）</td>
+                  </tr>
+                  <tr>
+                    <td>1,800 口</td>
+                    <td class="coin">金豆 1 克</td>
+                  </tr>
+                  <tr>
+                    <td>800 口</td>
+                    <td class="coin">金豆0.1錢（0.375克）</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="rules-plan-card text-center">
+            <div class="rules-plan-capsule">
+              <h4>大戶挑戰 再加碼</h4>
+            </div>
+            <p class="text-left">
+              活動期間OO-OO月累積交易外期口數每達35,000(含)口，則再加碼1兩。<br>
+              <b style="color: #D65538">舉例：</b>
+              <br>
+              若Ａ大戶海外期貨口數OO-OO月累積交易達80,000口，則共可加贈2兩。（每達35,000口贈一兩，活動期間內共符合2次，即加贈2兩。
+            </p>
+          </div>
+
+          <div class="rules-plan-card">
+            <div class="rules-plan-capsule">
+              連續達標升等獎勵
+            </div>
+            <p class="rules-plan-copy">
+              連續達標月數越多，獎勵越豐富——第 3 個月與第 6 個月各有升等驚喜
+            </p>
+            <div class="relative flex items-center justify-between max-w-3xl mx-auto mb-6 px-2 py-2">
+              <!-- Connecting Line -->
+              <div class="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-1 bg-[#FBBF24] z-0"></div>
+              <!-- Step 1 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="pb-1">　</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-white flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-sm">
+                  1
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 1 個月</span>
+              </div>
+              
+              <!-- Step 2 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="pb-1">　</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-white flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-sm">
+                  2
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 2 個月</span>
+              </div>
+              
+              <!-- Step 3 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="text-xs font-black text-spf-red pb-1">加贈</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-amber-50 flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-sm relative">
+                  <!-- <span class="absolute -top-3 text-[14px]">🪙</span> -->
+                   <img src="assets/goldicon3.png" class="w-75" alt="">
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 3 個月</span>
+              </div>
+              
+              <!-- Step 4 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="pb-1">　</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-white flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-sm">
+                  4
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 4 個月</span>
+              </div>
+              
+              <!-- Step 5 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="pb-1">　</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-white flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-sm">
+                  5
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 5 個月</span>
+              </div>
+              
+              <!-- Step 6 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <span class="text-xs font-black text-spf-red pb-1">訂製幣</span>
+                <div class="w-12 h-12 rounded-full border-4 border-[#FBBF24] bg-amber-100 flex items-center justify-center font-black text-sm text-[#1E3A8A] shadow-md relative scale-110">
+                  <img src="assets/goldicon2.png" class="w-75" alt="">
+                </div>
+                <span class="text-xs text-gray-700 font-bold mt-2">第 6 個月</span>
+              </div>
             </div>
 
-            <a href="#" class="cta-button-box animate__animated animate__fadeInRight animate__delay-1s">
-                <div class="cta-text">
-                    立即開戶送好禮，<br>
-                    搶佔先機市場！
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
+              <!-- Left Card -->
+              <div class="notice-card rounded-3xl border border-gray-200 p-6">
+                <div class="text-center mb-4">
+                  <span class="inline-flex items-center gap-2 bg-[#FFD82A] px-5 py-2 rounded-full font-black text-sm md:text-base">
+                    <span>
+                      <img src="/assets/goldicon3.png" class="w-75" alt="">
+                    </span> 
+                    連續３個月達標-獲得總獎勵
+                  </span>
+                  <p class="text-gray-500 text-xs mt-2 mb-0">7、8、9月（Q3）、10、11、12月（Q4），採每季為統計區間</p>
                 </div>
-                <div class="arrow-circle" style="color: wheat;">
-                    <!-- <i class="fa-solid fa-arrow-right"></i> -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
-                    </svg>
+                <div class="table-responsive">
+                  <table class="table-rule w-full border-collapse">
+                    <tbody>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm w-1/3">800 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆0.1錢*3</li>
+                            <li>金豆1克*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm">1,800 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆0.1錢*3</li>
+                            <li>金豆1克*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm rounded-bl-2xl">3,500 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm rounded-br-2xl">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆1錢*3</li>
+                            <li>金元寶0.5錢*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+                <p class="text-[10px] text-gray-400 mt-2 mb-0 text-right">*金豆0.1錢 (0.375克)、金元寶0.5錢 (1.875克)</p>
+              </div>
+
+              <!-- Right Card -->
+              <div class="notice-card rounded-3xl border border-gray-200 p-6">
+                <div class="text-center mb-4">
+                  <span class="inline-flex items-center gap-2 bg-[#FFD82A] px-5 py-2 rounded-full font-black text-sm md:text-base">
+                    <span>
+                      <img src="/assets/goldicon2.png" class="w-75" alt="">
+                    </span> 
+                    連續6個月達標-獲得總獎勵
+                  </span>
+                  <p class="text-gray-500 text-xs mt-2 mb-0">7、8、9、10、11、12月 (H2) 都達門檻</p>
+                </div>
+                <div class="table-responsive">
+                  <table class="table-rule w-full border-collapse">
+                    <tbody>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm w-1/3">800 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆0.1錢*6</li>
+                            <li>金豆1克*2 (加碼贈)</li>
+                            <li>訂製銀幣1盎司*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm">1,800 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆1克*6</li>
+                            <li>金豆1.875克*2 (加碼贈)</li>
+                            <li>訂製金幣0.5錢*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bg-[#FEF3C7] text-blue-950 font-black p-3 text-center border border-gray-100 text-sm rounded-bl-2xl">3,500 口<br><span class="text-[10px] font-normal text-gray-500">(單月)</span></td>
+                        <td class="bg-white text-gray-800 p-3 border border-gray-100 text-sm rounded-br-2xl">
+                          <ul class="list-disc list-inside space-y-1 mb-0 font-bold">
+                            <li>金豆1錢*6</li>
+                            <li>金元寶0.5錢*2 (加碼贈)</li>
+                            <li>訂製金幣1錢*1 (加碼贈)</li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2 mb-0 text-right">**訂製銀幣1盎司（31.1克）、訂製金幣1錢（3.75克）</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="rules-plan-card">
+            <div class="rules-plan-capsule">
+              各門檻對應獎品一覽
+            </div>
+            <div class="table-responsive">
+              <table class="table rules-table align-middle mb-0 text-center">
+                <thead class="align-middle">
+                  <tr>
+                    <th>達標門檻</th>
+                    <th>
+                      連續 3 個月<br>
+                      <small>（第三個月自動升等）</small>
+                    </th>
+                    <th>
+                      連續 6 個月<br>
+                      <small>（第六個月升等專屬訂製幣）</small>   
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>800 口以上</td>
+                    <td class="coin">炫麗金豆 1 克</td>
+                    <td class="coin">炫麗銀幣 1 盎司</td>
+                  </tr>
+                  <tr>
+                    <td>1,800 口以上</td>
+                    <td class="coin">炫麗金豆 1.68 克</td>
+                    <td class="coin">炫麗金幣 0.5 錢</td>
+                  </tr>
+                  <tr>
+                    <td>3,500 口以上</td>
+                    <td class="coin">炫麗元寶 0.5 錢</td>
+                    <td class="coin">炫麗金幣 1 錢</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section tracker" id="join">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              我現在差多少口？
+            </h2>
+            <h3 class="rules-subtitle">
+              輸入您本月的交易口數，即時查看距離下一個獎勵門檻還差多少
+            </h3>
+          </div>
+          <div class="tracker-box">
+            <div class="row g-4">
+              <div class="col-12 col-lg-6">
+                <div class="tracker-card tracker-card--main">
+                  <div class="tracker-card-head">
+                    <p class="tracker-kicker">
+                      當月交易口數
+                    </p>
+                    <div class="tracker-input-group">
+                      <input id="lots-input" class="tracker-input" type="number" min="0" placeholder="請輸入口數，例如 1200">
+                      <span class="tracker-input-icon">口</span>
+                    </div>
+                    <p class="tracker-tip">
+                      * 小提醒：微型日經交易一口計算為 0.5 口
+                    </p>
+                  </div>
+
+                  <div class="tracker-bottle">
+                    <div class="tracker-bottle-icon">
+                      <div class="tracker-bottle-shape"></div>
+                    </div>
+                    <div>
+                      <h4 id="bottle-status-text">
+                        當月尚未達到最低門檻 (800 口)
+                      </h4>
+                      <p id="bottle-accumulated-text">
+                        目前累積：<span>20</span> 口
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="tracker-progress-block">
+                    <div class="tracker-progress-meta">
+                      <span id="progress-bar-min">0 口</span>
+                      <span id="progress-bar-max">800 口</span>
+                    </div>
+                    <div class="tracker-progress-track">
+                      <div id="progress-bar-filled" class="tracker-progress-bar"></div>
+                    </div>
+                  </div>
+
+                  <div id="milestone-description" class="tracker-note">
+                    再交易 <strong>780</strong> 口，即可升級至 800 口門檻，獲得金豆 0.05 錢 (0.187 克)
+                  </div>
+
+                  <div class="tracker-countdown">
+                    距本月底還有 <strong id="countdown-days-span">4</strong> 天，把握最後機會！
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6">
+                <div class="tracker-card tracker-card--side">
+                  <div class="tracker-card-head tracker-card-head--compact">
+                    <p class="tracker-kicker">
+                      已連續達標月份
+                    </p>
+                  </div>
+
+                  <div class="tracker-months">
+                    <button type="button" class="tracker-month-btn is-active" data-month="0">0</button>
+                    <button type="button" class="tracker-month-btn" data-month="1">1</button>
+                    <button type="button" class="tracker-month-btn" data-month="2">2</button>
+                    <button type="button" class="tracker-month-btn" data-month="3">3</button>
+                    <button type="button" class="tracker-month-btn" data-month="4">4</button>
+                    <button type="button" class="tracker-month-btn" data-month="5">5</button>
+                    <button type="button" class="tracker-month-btn" data-month="6">6</button>
+                  </div>
+                  <p class="tracker-tip">
+                    0 = 尚未開始 / 點選目前已連續達標月數
+                  </p>
+
+                  <div class="tracker-tier">
+                    <div class="tracker-tier-title">
+                      連續 <strong>3</strong> 個月 <span>升等</span>
+                    </div>
+                    <div class="tracker-tier-dots">
+                      <span class="tracker-tier-dot" data-num="1">1</span>
+                      <span class="tracker-tier-dot" data-num="2">2</span>
+                      <span class="tracker-tier-dot" data-num="3">3</span>
+                    </div>
+                    <div id="l1-status" class="tracker-tier-status">
+                      還差 <strong>3</strong> 個月解鎖升等獎勵
+                    </div>
+                  </div>
+
+                  <div class="tracker-tier">
+                    <div class="tracker-tier-title">
+                      連續 <strong>6</strong> 個月 <span>訂製幣</span>
+                    </div>
+                    <div class="tracker-tier-dots">
+                      <span class="tracker-tier-dot" data-num="1">1</span>
+                      <span class="tracker-tier-dot" data-num="2">2</span>
+                      <span class="tracker-tier-dot" data-num="3">3</span>
+                      <span class="tracker-tier-dot" data-num="4">4</span>
+                      <span class="tracker-tier-dot" data-num="5">5</span>
+                      <span class="tracker-tier-dot" data-num="6">6</span>
+                    </div>
+                    <div id="l2-status" class="tracker-tier-status">
+                      還差 <strong>6</strong> 個月解鎖升等獎勵
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tracker-share-card">
+              <div class="tracker-share-badge">
+                💛 分享我的黃金進度 💛
+              </div>
+              <textarea id="share-textarea" class="tracker-share-textarea"></textarea>
+              <div class="tracker-share-actions">
+                <button type="button" id="btn-copy-text" class="tracker-share-btn">
+                  複製文字
+                </button>
+                <button type="button" id="btn-line-share" class="tracker-share-btn">
+                  LINE 分享
+                </button>
+                <button type="button" id="btn-fb-share" class="tracker-share-btn">
+                  Facebook 分享
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section online-account-opening animate-on-scroll animate__animated animate__fadeInUp">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title">
+              開始為孩子種下，第一顆黃金種子
+            </h2>
+          </div>
+          <div class="online-account-layout">
+            <div class="online-account-avatar">
+              <img src="assets/figure5.png" alt="從種子到大樹，每一步都有黃金相伴">
+            </div>
+            <div class="online-account-copy">
+              從種子到大樹，每一步都有黃金相伴
+            </div>
+            <a class="online-account-action" href="https://lihi3.me/SvM9j" target="_blank" rel="noreferrer">
+              <div class="online-account-action-text">
+                立即線上開戶，一起來種金豆！
+              </div>
+              <div class="online-account-action-icon">
+                →
+              </div>
             </a>
+          </div>
         </div>
-    </section>
-
-    <!-- faq Section -->
-    <section id="faq" class="container py-5">
-        <div class="section-tag-wrapper">
-            <div class="section-tag">常見 Q&A</div>
+      </section>
+      <section class="section featured-video">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              國外智慧單-二擇一單教學
+            </h2>
+          </div>
+          <div class="single-video-feature">
+            <a class="single-video-card single-video-card--plain" href="https://lihi3.me/p8urw" target="_blank" rel="noreferrer">
+              <div class="single-video-media">
+                <img src="assets/yt.png" alt="智慧單教學">
+                <div class="video-thumbnail-overlay">
+                  <div class="video-play-btn">
+                    <span>▶</span>
+                  </div>
+                </div>
+                <span class="video-duration">YouTube</span>
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="row justify-content-center mt-4">
-            <div class="col-lg-10">
-                <div class="bg-white p-3 rounded-4 shadow-sm mb-3 border-2">
-                    <h6 class="fw-bold">Q1. 黃金兌換與使用說明</h6>
-                    <p class="mb-0 small">本活動贈品（黃金條）活動結束後由所屬分行聯繫，客戶應填寫確認回傳單，黃金條於兩個月內，安排所屬專案依客戶指定方式交付後由客戶簽收確認。因黃金屬於國際流通性商品，實體金幣依當日金價為準，本公司保留贈品實體金金量更換權，不受金價波動影響。黃金牌價依主辦單位指定款式為準，恕不挑款，不得折現、轉讓或要求更換等值或相近價值之商品。</p>
+      </section>
+      <section class="section learn">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              期貨學院
+            </h2>
+          </div>
+          <div class="row g-4 mt-2 m-auto learn-w">
+            <div class="col-12 col-md-6">
+              <a class="video-grid-card" href="https://www.youtube.com/watch?v=SlRqvAeG6u0" target="_blank" rel="noreferrer">
+                <div class="video-thumbnail-container">
+                  <img src="assets/yt1.png" alt="海期是什麼？海期交易時間、保證金總整理，帶你快速認識海外期貨">
+                  <div class="video-thumbnail-overlay">
+                    <div class="video-play-btn">
+                      <span>▶</span>
+                    </div>
+                  </div>
+                  <span class="video-duration">YouTube</span>
                 </div>
-
-                <div class="bg-white p-3 rounded-4 shadow-sm mb-3 border-2">
-                    <h6 class="fw-bold">Q2. 得獎人代扣10%所得稅</h6>
-                    <p class="mb-0 small">領獎時需配合稅法規定：境內居住者中獎價值超過2萬元須扣繳10%；非境內居住者則不限金額一律扣繳20%。所有中獎紀錄均會依規定向國稅局進行年度申報，請得獎者配合提供相關證件資料。此外，參加本活動即代表同意主辦單位收集您的個資用於兌獎作業。若拒絕提供資料，將視為自動放棄領獎資格，主辦單位不再補發獎項。</p>
+                <div class="video-grid-card-body">
+                  <h3>
+                    海期是什麼？海期交易時間、保證金總整理，帶你快速認識海外期貨
+                  </h3>
                 </div>
-
-                <div class="bg-white p-3 rounded-4 shadow-sm mb-3 border-2">
-                    <h6 class="fw-bold">Q3. 黃金條商品問題</h6>
-                    <p class="mb-0 small">本活動之黃金條贈品，若有疑問請洽詢原供應商，如因使用本獎項而引起之爭議、糾紛、損害賠償，由黃金商品廠商負責。</p>
-                </div>
+              </a>
             </div>
+            <div class="col-12 col-md-6">
+              <a class="video-grid-card" href="https://lihi3.me/kRBvN" target="_blank" rel="noreferrer">
+                <div class="video-thumbnail-container video-thumbnail-gradient gold">
+                  <div class="video-thumbnail-center">
+                    農產品也能投資？看完這篇讓你找到更多投資機會！
+                  </div>
+                  <div class="video-thumbnail-overlay">
+                    <div class="video-play-btn">
+                      <span>▶</span>
+                    </div>
+                  </div>
+                  <span class="video-duration">YouTube</span>
+                </div>
+                <div class="video-grid-card-body">
+                  <h3>
+                    農產品也能投資？看完這篇讓你找到更多投資機會！
+                  </h3>
+                </div>
+              </a>
+            </div>
+            <div class="col-12 col-md-6">
+              <a class="video-grid-card" href="https://www.youtube.com/watch?v=Qvss7j4DMzY" target="_blank" rel="noreferrer">
+                <div class="video-thumbnail-container">
+                  <img src="assets/yt3.png" alt="黃金期貨是什麼？怎麼買？黃金期貨保證金及交易4步驟一次整理">
+                  <div class="video-thumbnail-overlay">
+                    <div class="video-play-btn">
+                      <span>▶</span>
+                    </div>
+                  </div>
+                  <span class="video-duration">YouTube</span>
+                </div>
+                <div class="video-grid-card-body">
+                  <h3>
+                    黃金期貨是什麼？怎麼買？黃金期貨保證金及交易4步驟一次整理
+                  </h3>
+                </div>
+              </a>
+            </div>
+            <div class="col-12 col-md-6">
+              <a class="video-grid-card" href="https://www.youtube.com/watch?v=7WUF1rhvK5E" target="_blank" rel="noreferrer">
+                <div class="video-thumbnail-container">
+                  <img src="assets/yt4.png" alt="陸股瘋漲瘋跌都不怕！？快速認識法人都在用的A50指數期貨">
+                  <div class="video-thumbnail-overlay">
+                    <div class="video-play-btn">
+                      <span>▶</span>
+                    </div>
+                  </div>
+                  <span class="video-duration">YouTube</span>
+                </div>
+                <div class="video-grid-card-body">
+                  <h3>
+                    陸股瘋漲瘋跌都不怕！？快速認識法人都在用的A50指數期貨
+                  </h3>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- footer Section -->
-    <section class="container py-5">
-        <div class="section-tag-wrapper">
-            <div class="section-tag">注意事項</div>
+      <section class="section design-draft">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="title-pill section-title intro-title animate__animated animate__zoomIn">
+              常見問題
+            </h2>
+          </div>
+          <div class="design-draft-card">
+            <div class="faq-item">
+              <h3>
+                <img class="faq-icon" src="assets/goldicon.png" alt="常見問題圖示">
+                Q1：黃金兌換與使用說明
+              </h3>
+              <p>
+                本活動贈品會由所屬營業員聯繫，客戶應填寫並親簽名領取同意書及身分證反面影本，回傳至永豐期貨台北總公司。永豐期貨確認資料無誤，會再透過營業員或寄送至客戶。
+              </p>
+            </div>
+          </div>
+          <div class="design-draft-card">
+            <div class="faq-item">
+              <h3>
+                <img class="faq-icon" src="assets/goldicon.png" alt="常見問題圖示">
+                Q2：得獎人代扣 10% 所得稅
+              </h3>
+              <p>
+                領獎時需配合稅法規定：境內居住者中獎價值超過2萬元須扣繳 10%；非境內居住者則不限金額一律扣繳 20%。所有中獎紀錄均會依規定向國稅局進行年度申報，請得獎者配合提供相關證件資料。此外，參加本活動即代表同意主辦單位收集您的個資用於兌獎作業。若拒絕提供資料，將視為自動放棄領獎資格，主辦單位不再補發獎項。
+              </p>
+            </div>
+          </div>
+          <div class="design-draft-card">
+            <div class="faq-item">
+              <h3>
+                <img class="faq-icon" src="assets/goldicon.png" alt="常見問題圖示">
+                Q3：黃金條商品問題
+              </h3>
+              <p>
+                本活動之黃金贈品，若有疑問請洽詢原供應商，如因使用本獎項而引起之爭議、糾紛、損害賠償，由黃金商品廠商負責。
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="bg-white p-4 rounded-4 shadow-sm">
-            <ul class="small text-muted mb-0 list-type-decimel">
-                <li>本活動同身分證字號的各期貨帳戶視為一戶，不適用法人戶。</li>
-                <li>全新戶再加碼活動：以身分證字號判斷，限未曾於永豐開立過期貨戶者參加(有永豐金證券戶沒有期貨帳戶者，使用加開期貨戶亦符合贈獎資格)。</li>
-                <li>依所得稅法規定，機會中獎之獎項價值若超過NT$1,000，所得將列入個人年度綜合所得稅申報，若獎品價值總額超過NT$20,000，必須代扣10%中獎獎金稅額；非中華民國國境內居住之國人（即在中華民國境內居住未達183天之本國人及外國人）不論得獎者所得之金額，須就中獎所得扣繳20%機會中獎稅。扣繳稅款未超NT$2,000，免扣繳（外籍人士不適用）。若得獎者經主辦單位通知，拒絕繳納代扣稅額者，視為放棄得獎權益。</li>
-                <li>參加活動者，交易若有涉嫌違反期貨交易法、洗錢防制法、臺灣期貨交易所或海外期貨交易所之相關規定，主辦單位有權取消其抽獎或獲獎之資格。</li>
-                <li>本活動如有未盡事宜，永豐期貨擁有保留、修改、暫停及解釋活動內容之權利，修改訊息將於本網站上公佈，不另行通知。</li>
-                <li>得獎者同意相關個人資訊由本公司於活動範圍進行蒐集、電腦處理及利用，得獎者並授權本公司公開公佈姓名，並不做其他用途。</li>
-                <li>中獎獎品如遇產品缺貨或不可抗力之事由導致獎品內容變更，主辦單位有權變更贈品，改由等值商品取代之，得獎者不得要求折現或轉換其他商品。且主辦與活動單位不負贈品之任何維護或保固責任。</li>
-                <li>期權交易與槓桿保證金契約各類型交易皆財務槓桿高，投資人請慎重考量自身財務能力，並特別留意控管風險。使用電子下單交易委託買賣時，仍可能面臨斷線、斷電、網路壅塞等不確定因素，致使委託買賣無法傳送或接收或延遲，投資人交易時應自行留意。</li>
-            </ul>
-        </div>
-    </section>
-
-    <footer class="text-center">
-        <p class="mb-0">永豐金證券股份有限公司 ｜ 台北市重慶南路一段二號 7、18、20 樓</p>
-        <p class="mb-0">客服專線：0800-038-123、02-6630-8899 ｜ 反詐騙諮詢專線：02-8173-5345 ｜ 客服時間：台股營業日 AM 08:00～PM 09:00</p>
-        <p class="mb-0">114 年金管證總字第 0058 號（永豐金證券）｜ 114年金管期總字第010號（委任期貨商永豐期貨）</p>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <strong>
+          永豐期貨股份有限公司
+        </strong>
+        <p>
+          本活動內容僅供示意，投資有風險，申購前應詳閱公開說明書。客服專線：02-2382-1313
+        </p>
+      </div>
     </footer>
-    <div class="warning-bar text-center">永豐期貨股份有限公司 | 台北市重慶南路一段2號8樓 | 02-2381-1799 | 114年金管期總字第010號</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Load custom vanilla JS main controller -->
+  <script type="module" src="js/threshold.js"></script>
+  <script src="js/tailwindcss3.4.17.js"></script>
     <script>
-        // 額外小優化：點擊選單後，在手機版會自動收起漢堡選單
-        const navLinks = document.querySelectorAll('.nav-link');
-        const menuToggle = document.getElementById('mainNav');
-        const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle:false});
-        navLinks.forEach((l) => {
-            l.addEventListener('click', () => { 
-                if (window.innerWidth < 992) { bsCollapse.hide(); } 
-            });
-        });
-    </script>
-</body>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'spf-red': '#D65538',
+            'spf-gold': '#D4AF37',
+            'spf-cream': '#FFF9E6',
+            'spf-dark': '#333333',
+          }
+        }
+      }
+    }
+  </script>
+  </body>
 </html>
