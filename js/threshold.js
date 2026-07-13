@@ -3,8 +3,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- CONFIGURATION DEADLINE (Adjust this date/time to change the countdown target) ---
-  // 你可以直接修改這個變數來設定目標日期，例如 2026/07/30。
-  const TARGET_DATE = "2026-07-28";
+  // 設定目標日期，2026-12-31。
+  const TARGET_DATE = "2026-12-31";
   const TARGET_DEADLINE = new Date(`${TARGET_DATE}T23:59:59`);
 
   // --- STATE ---
@@ -17,11 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- CONFIG / TIERS ---
   const tiers = [
     { threshold: 0, rewardMace: 0, rewardGram: 0, label: "無" },
-    { threshold: 800, rewardMace: 0.05, rewardGram: 0.187, label: "金豆 0.05 錢" },
-    { threshold: 2000, rewardMace: 0.1, rewardGram: 0.375, label: "金豆 0.1 錢" },
-    { threshold: 5000, rewardMace: 0.25, rewardGram: 0.938, label: "金豆 0.25 錢" },
-    { threshold: 10000, rewardMace: 0.5, rewardGram: 1.875, label: "金豆 0.5 錢" },
-    { threshold: 20000, rewardMace: 1.0, rewardGram: 3.75, label: "實體金豆 1 錢" },
+    { threshold: 800, rewardMace: 0.1, rewardGram: 0.375, label: "金豆 0.1 錢" },
+    { threshold: 1800, rewardMace: 1, rewardGram: 1, label: "金豆 1 克" },
+    { threshold: 3500, rewardMace: 1, rewardGram: 3.75, label: "金豆 1 錢" },
   ];
 
   // --- DOM SELECTORS ---
@@ -219,14 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let rewardText = "";
     if (numericLots < 800) {
       rewardText = "0.05 錢 (0.187 克) [達標衝刺中！]";
-    } else if (numericLots >= 800 && numericLots < 2000) {
-      rewardText = "實體金豆 0.05 錢 (0.187 克)";
-    } else if (numericLots >= 2000 && numericLots < 5000) {
+    } else if (numericLots >= 800 && numericLots < 1799) {
       rewardText = "實體金豆 0.1 錢 (0.375 克)";
-    } else if (numericLots >= 5000 && numericLots < 10000) {
-      rewardText = "實體金豆 0.25 錢 (0.938 克)";
-    } else if (numericLots >= 10000 && numericLots < 20000) {
-      rewardText = "實體金豆 0.5 錢 (1.875 克)";
+    } else if (numericLots >= 1800 && numericLots < 3499) {
+      rewardText = "實體金豆 1 克";
     } else {
       rewardText = "實體金豆 1 錢 (3.75 克)";
     }
