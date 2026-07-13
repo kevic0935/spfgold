@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (numericLots >= 800 && numericLots < 1799) {
       rewardText = "實體金豆 0.1 錢 (0.375 克)";
     } else if (numericLots >= 1800 && numericLots < 3499) {
-      rewardText = "實體金豆 1 克";
+      rewardText = "實體金豆 1 克 (1 克)";
     } else {
       rewardText = "實體金豆 1 錢 (3.75 克)";
     }
