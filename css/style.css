@@ -457,6 +457,10 @@ h2 {
   background: #fffef9;
 }
 
+.benefit .product-card img {
+  height: auto;
+}
+
 .benefit-icon {
   display: grid;
   width: 42px;
@@ -1160,7 +1164,7 @@ footer p { margin-bottom: 0; }
   .intro::before, .intro::after { font-size: 2rem; }
   .intro-title { padding: .55rem 1.1rem; font-size: 1.8rem; }
   .product-card { padding: 1.35rem; box-shadow: 7px 7px 0 #f7b51c; }
-  .product-card img { height: 250px; }
+  /* .product-card img { height: 250px; } */
   .visual-block-image { max-height: 260px; }
   .growth img { height: 54px; }
   .growth::before { bottom: 31px; }
