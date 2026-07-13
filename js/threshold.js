@@ -235,9 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `各位！我把交易量變成了真黃金了！大推~永豐期貨交易 存黃金計畫！🤩
 
-這個月我的金豆種植進度大爆發，交易了 ${numericLots.toLocaleString()} 口！獲得${rewardText}！
-月底最後衝刺還有 ${daysLeft} 天，有興趣的朋友趕快一起加入吧~
-👉 點進去一起存黃金：[點我了解更多：永豐期貨交易 存黃金計畫]`;
+    這個月我的金豆種植進度大爆發，交易了 ${numericLots.toLocaleString()} 口！獲得${rewardText}！
+    月底最後衝刺還有 ${daysLeft} 天，有興趣的朋友趕快一起加入吧~
+    👉 點進去一起存黃金：${window.location.href}`;;
   }
 
   function getEffectiveShareText() {
@@ -362,14 +362,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnFbShare) {
       btnFbShare.addEventListener("click", () => {
         const text = getEffectiveShareText();
-        navigator.clipboard.writeText(text);
-        showToast("已為您複製內容！即將開啟 Facebook...");
-        setTimeout(() => {
+        
+        // 先複製文字到剪貼簿
+        navigator.clipboard.writeText(text).then(() => {
+          // 彈出瀏覽器內建警告視窗，強制使用者觀看
+          alert("【文案已為您複製！】\n\n即將前往 Facebook，請在發文框內「點右鍵貼上」（或按 Ctrl+V / ⌘+V）即可顯示精彩文案 💛");
+          // 使用者點選確定後，才會執行到這裏，開啟 Facebook
           const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
             window.location.href
-          )}&quote=${encodeURIComponent(text)}`;
+          )}`;
           window.open(fbUrl, "_blank");
-        }, 1000);
+        }).catch(() => {
+          // 複製失敗的防呆
+          alert("複製失敗，請手動複製分享區的文字再行分享。");
+        });
       });
     }
   }
