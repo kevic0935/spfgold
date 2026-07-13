@@ -1148,7 +1148,8 @@ h2 {
   line-height: 1.6;
 }
 
-footer { padding: 2rem 0; color: #604707; background: #e8bd1f; font-size: .75rem; text-align: center; }
+footer { padding: 2rem 0; color: #604707; background: #FFD82A; font-size: .75rem; text-align: center; }
+footer strong {font-size: 16px;}
 footer p { margin-bottom: 0; }
 
 @media (max-width: 575px) {
