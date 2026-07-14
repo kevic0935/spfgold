@@ -1152,6 +1152,11 @@ h2 {
   line-height: 1.6;
 }
 
+.add-text {
+  font-size: 0.75rem;
+  line-height: 24px;
+}
+
 footer { padding: 2rem 0; color: #604707; background: #FFD82A; font-size: .75rem; text-align: center; }
 footer strong {font-size: 16px;}
 footer p { margin-bottom: 0; }
@@ -1173,4 +1178,7 @@ footer p { margin-bottom: 0; }
   .figure { height: 105px; }
   .single-video-content { padding: 1.2rem; }
   .single-video-media { min-height: 220px; }
+  .rules-plan-card .w-12 { width: 2rem; }
+  .rules-plan-card .h-12 { height: 2rem; }
+  .rules-plan-card .text-xs {font-size: .6rem;}
 }
