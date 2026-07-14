@@ -1162,7 +1162,7 @@ footer p { margin-bottom: 0; }
   .hero-actions { bottom: 2.25rem; flex-direction: column; align-items: center; bottom: 5px;}
   .hero-actions .btn { width: min(100%, 290px); min-width: 0; }
   .intro::before, .intro::after { font-size: 2rem; }
-  .intro-title { padding: .55rem 1.1rem; font-size: 1.8rem; }
+  .intro-title { padding: .55rem 1.1rem; font-size: 1.6rem; }
   .product-card { padding: 1.35rem; box-shadow: 7px 7px 0 #f7b51c; }
   /* .product-card img { height: 250px; } */
   .visual-block-image { max-height: 260px; }
